@@ -31,3 +31,13 @@ You have a few options to create the final PDF:
 ## Submitting the Final PDF
 
 Instructions will be provided on the IAML Learn page telling you where to upload your final PDF and code. 
+
+## Change log
+   Abbreviation: [I]: Instruction sheet (PDF file), [T]: Assignment_2.tex (Latex file)
+   
+* 03/Nov/2020 Ver. 1.0.0 -> 1.0.1 [I,T]
+  * Fixed a typo in Question 1.8
+    * Plot all the test samples (Xtrn_nm)" --> "Plot all the training samples (Xtrn_nm)"
+
+* 02/Nov/2020 Ver. 1.0.0 [I,T]
+  * Initial version
