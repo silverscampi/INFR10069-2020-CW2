@@ -20,49 +20,20 @@ import seaborn as sns
 from iaml01cw2_helpers import *
 # from iaml01cw2_my_helpers import *
 
+datapath = "../data/"
+Xtrn, Ytrn, Xtst, Ytst = load_FashionMNIST(datapath)
+
+Xtrn_orig = Xtrn.copy()
+Xtst_orig = Xtst.copy()
+twoff_trn = np.ones(Xtrn.shape) * 255.0
+twoff_tst = np.ones(Xtst.shape) * 255.0
+Xtrn /= twoff_trn
+Xtst /= twoff_tst
+
+means_Xtrn = np.mean(Xtrn, axis=0)
+
+
+
+
 #<----
 
-# Q1.1
-def iaml01cw2_q1_1():
-#
-# iaml01cw2_q1_1()   # comment this out when you run the function
-
-# Q1.2
-def iaml01cw2_q1_2():
-#
-# iaml01cw2_q1_2()   # comment this out when you run the function
-
-# Q1.3
-def iaml01cw2_q1_3():
-#
-# iaml01cw2_q1_3()   # comment this out when you run the function
-
-
-# Q1.4
-def iaml01cw2_q1_4():
-#
-# iaml01cw2_q1_4()   # comment this out when you run the function
-
-
-# Q1.5
-def iaml01cw2_q1_5():
-#
-# iaml01cw2_q1_5()   # comment this out when you run the function
-
-
-# Q1.6
-def iaml01cw2_q1_6():
-#
-# iaml01cw2_q1_6()   # comment this out when you run the function
-
-
-# Q1.7
-def iaml01cw2_q1_7():
-#
-# iaml01cw2_q1_7()   # comment this out when you run the function
-
-
-# Q1.8
-def iaml01cw2_q1_8():
-#
-# iaml01cw2_q1_8()   # comment this out when you run the function
