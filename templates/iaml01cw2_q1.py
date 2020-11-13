@@ -51,15 +51,7 @@ print()
 print()
 
 
-      \texttt{Xtrn\_nm[0,:][0:4]}
-      
-      [-3.13725490e-06, -2.26797386e-05 -1.17973856e-04, -4.07058824e-04]
-    
-    \vspace{8pt}
-    
-      \texttt{Xtrn\_nm[-1,:][0:4]}
-      
-      [-3.13725490e-06, -2.26797386e-05, -1.17973856e-04, -4.07058824e-04]
+
 
 
 
@@ -133,8 +125,7 @@ def iaml01cw2_q1_2():
 
 
     matplotlib.rcParams.update({'font.size': 22})
-    
-    f.subplots_adjust(top=0.98, bottom=0.04, left=0.131, right=0.5, hspace=0.1, wspace=0.0)
+
     plt.show()
 
 
@@ -143,13 +134,9 @@ print()
 print()
 
 
-    \begin{center}
-        \includegraphics[scale=0.4]{q1-2.png}
-    \end{center}
-    As expected, the samples closest to the mean are visually very similar to the mean, and the samples furthest from the mean are visually dissimilar to the mean.
-    Anything more???
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 # Q1.3
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("Q1.3")
@@ -157,25 +144,87 @@ print("~~~~~~~~~")
 def iaml01cw2_q1_3():
     pca = PCA()
     Xtrn_nm_pca = pca.fit_transform(Xtrn_nm)
+    print(pca.explained_variance_[:5])
 
+#iaml01cw2_q1_3()   # comment this out when you run the function
+print()
 print()
 
-        \begin{center}[]
-        \begin{tabular}{@{}ll@{}}
-        \toprule
-        Principal Component    & Variance \\ \midrule
-        PC1 & 19.81    \\
-        PC2 & 12.11    \\
-        PC3 & 4.11     \\
-        PC4 & 3.38     \\
-        PC5 & 2.62     \\ \bottomrule
-        \end{tabular}
-        \end{center}
-
-# iaml01cw2_q1_3()   # comment this out when you run the function
 
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Q1.4
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("Q1.4")
+print("~~~~~~~~~")
+def iaml01cw2_q1_4():
+    pca = PCA()
+    Xtrn_nm_pca = pca.fit_transform(Xtrn_nm)
+    var_cum = np.cumsum(pca.explained_variance_ratio_)
+    plt.plot(var_cum, linewidth=2, color='firebrick')
+    plt.title("Cumulative explained variance ratio over number of principal components")
+    plt.xlabel("K (number of principal components)")
+    plt.ylabel("Cumulative explained variance")
+    plt.show()
+
+
+#iaml01cw2_q1_4()   # comment this out when you run the function
+print()
+print()
 
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Q1.5
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("Q1.5")
+print("~~~~~~~~~")
+def iaml01cw2_q1_5():
+    pca = PCA()
+    Xtrn_nm_pca = pca.fit_transform(Xtrn_nm)
+    firstten = pca.components_[:10]
+    f, axarr = plt.subplots(2, 5)
+    for i in range(2):
+        for j in range(5):
+            idx = i*5 + j;
+            img = firstten[idx].reshape((28,28))
+            axarr[i,j].imshow(img, cmap='gray_r')
+            axarr[i,j].set_title("PC " + str(idx+1))
+            axarr[i,j].axis('off')
+
+    plt.show()
+
+#iaml01cw2_q1_5()   # comment this out when you run the function
+print()
+print()
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Q1.6
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("Q1.6")
+print("~~~~~~~~~")
+def iaml01cw2_q1_6():
+#
+# iaml01cw2_q1_6()   # comment this out when you run the function
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Q1.7
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("Q1.7")
+print("~~~~~~~~~")
+def iaml01cw2_q1_7():
+#
+# iaml01cw2_q1_7()   # comment this out when you run the function
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Q1.8
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("Q1.8")
+print("~~~~~~~~~")
+def iaml01cw2_q1_8():
+#
+# iaml01cw2_q1_8()   # comment this out when you run the function
