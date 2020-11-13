@@ -15,6 +15,7 @@
 
 import numpy as np
 import scipy
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from iaml01cw2_helpers import *
@@ -42,7 +43,7 @@ def iaml01cw2_q1_1():
     print(Xtrn_nm[0,:][0:4])
     print()
     print(Xtrn_nm[0,:][0:4])
-iaml01cw2_q1_1()   # comment this out when you run the function
+#iaml01cw2_q1_1()   # comment this out when you run the function
 print()
 print()
 
@@ -80,7 +81,7 @@ def iaml01cw2_q1_2():
     for i in range(10):
         inds[i] = np.argsort(dists[i])
 
-    # 
+    # build grid 
     grid = np.zeros((10, 5, 784))
     for i in range(10):
         # closest two
@@ -96,14 +97,51 @@ def iaml01cw2_q1_2():
         tmpinds = tuple(tmpinds.astype(int))
         grid[i][-2:] = byclass[i,tmpinds,:]
     
+
+
+
+
+    # plot grid
+    f, axarr = plt.subplots(10, 5)
+    for i in range(10):
+        for j in range(5):
+
+            if (j != 2):
+                for k in range(60000):
+                    if (Xtrn[k] == grid[i,j]).all():
+                        idx = k
+
+            #plt.subplot(10, 5, (i)*5+(j+1))
+            img = grid[i,j].reshape((28,28))
+            axarr[i,j].imshow(img, cmap='gray_r')
+            if (j != 2):
+                axarr[i,j].set_title("Class " + str(i) + ",\n sample " + str(idx))
+            elif (j == 2):
+                axarr[i,j].set_title("Class " + str(i) + " mean")
+            axarr[i,j].axis('off')
+
+
+    matplotlib.rcParams.update({'font.size': 22})
     
+    f.subplots_adjust(top=0.98, bottom=0.04, left=0.131, right=0.5, hspace=0.1, wspace=0.0)
+    plt.show()
 
 
-
-iaml01cw2_q1_2()   # comment this out when you run the function
+#iaml01cw2_q1_2()   # comment this out when you run the function
 print()
 print()
 
+
+# Q1.3
+print("Q1.3")
+print("~~~~~~~~~")
+def iaml01cw2_q1_3():
+    print()
+
+print()
+
+
+# iaml01cw2_q1_3()   # comment this out when you run the function
 
 
 
