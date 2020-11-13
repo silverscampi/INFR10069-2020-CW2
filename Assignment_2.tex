@@ -121,9 +121,12 @@
    % Q1.3
    \begin{subquestion}{(3 points)
        Apply Principal Component Analysis (PCA) to the data of {\tt
-         Xtrn\_nm} using \href{https://scikit-learn.org/0.19/modules/generated/sklearn.decomposition.PCA.html}{sklearn.decomposition.PCA}, and
-       find the cumulative explained variance.
-     } \label{Q1.pca.variance}
+         Xtrn\_nm} using
+       \href{https://scikit-learn.org/0.19/modules/generated/sklearn.decomposition.PCA.html}{sklearn.decomposition.PCA},
+       and report the variances of projected data for the first five principal
+       components in a table. 
+       Note that you should use {\tt Xtrn\_nm} instead of {\tt Xtrn}.
+           } \label{Q1.pca.variance}
 
 
 
@@ -138,7 +141,9 @@
    %==============================
    % Q1.4
    \begin{subquestion}{(3 points)
-       Plot a graph of the cumulative explained variance ratio.
+       Plot a graph of the cumulative explained variance ratio as a
+       function of the number of principal components, $K$, where $1
+       \le K \le 784$.
        Discuss the result briefly.
      } \label{Q1.plot.pca.variance}
    
