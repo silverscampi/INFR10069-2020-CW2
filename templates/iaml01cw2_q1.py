@@ -15,6 +15,7 @@
 
 import numpy as np
 import scipy
+from sklearn.decomposition import PCA
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -36,7 +37,9 @@ Xtrn_nm = Xtrn - Xmean
 Xtst_nm = Xtst - Xmean
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Q1.1
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("Q1.1")
 print("~~~~~~~~~")
 def iaml01cw2_q1_1():
@@ -48,14 +51,22 @@ print()
 print()
 
 
+      \texttt{Xtrn\_nm[0,:][0:4]}
+      
+      [-3.13725490e-06, -2.26797386e-05 -1.17973856e-04, -4.07058824e-04]
+    
+    \vspace{8pt}
+    
+      \texttt{Xtrn\_nm[-1,:][0:4]}
+      
+      [-3.13725490e-06, -2.26797386e-05, -1.17973856e-04, -4.07058824e-04]
+
+
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#dist = numpy.linalg.norm(a-b)
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 # Q1.2
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("Q1.2")
 print("~~~~~~~~~")
 def iaml01cw2_q1_2():
@@ -132,14 +143,34 @@ print()
 print()
 
 
+    \begin{center}
+        \includegraphics[scale=0.4]{q1-2.png}
+    \end{center}
+    As expected, the samples closest to the mean are visually very similar to the mean, and the samples furthest from the mean are visually dissimilar to the mean.
+    Anything more???
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Q1.3
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("Q1.3")
 print("~~~~~~~~~")
 def iaml01cw2_q1_3():
-    print()
+    pca = PCA()
+    Xtrn_nm_pca = pca.fit_transform(Xtrn_nm)
 
 print()
 
+        \begin{center}[]
+        \begin{tabular}{@{}ll@{}}
+        \toprule
+        Principal Component    & Variance \\ \midrule
+        PC1 & 19.81    \\
+        PC2 & 12.11    \\
+        PC3 & 4.11     \\
+        PC4 & 3.38     \\
+        PC5 & 2.62     \\ \bottomrule
+        \end{tabular}
+        \end{center}
 
 # iaml01cw2_q1_3()   # comment this out when you run the function
 
