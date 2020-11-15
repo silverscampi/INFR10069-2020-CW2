@@ -15,7 +15,9 @@
 
 import numpy as np
 import scipy
+import math
 from sklearn.decomposition import PCA
+from sklearn.metrics import mean_squared_error
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -206,9 +208,38 @@ print()
 print("Q1.6")
 print("~~~~~~~~~")
 def iaml01cw2_q1_6():
-#
-# iaml01cw2_q1_6()   # comment this out when you run the function
+    Ks = [5, 20, 50, 200]
+    
+    # split instances by class
+    byclass = np.zeros((10, 6000, 784))
+    for i in range(10):
+        byclass[i] = Xtrn[np.where(Ytrn==i)]
 
+    # calculate means for each classs
+    classmeans = np.zeros((10, 784))
+    for i in range(10):
+        classmeans[i] = np.mean(byclass[i], axis=0)
+
+    # for each class, for each K...
+    for i in range(10):
+        for K in Ks:
+            # make PCA with K components
+            pca = PCA(n_components=K)
+            # fit the PCA to the whole class
+            Xtrn_nm_pca = pca.fit(byclass[i])
+            # dim-reduct the first sample in the class
+            dimred = pca.transform(byclass[i][0].reshape(1,-1))
+            # reconstruct (inverse-transform) this reduced sample
+            reconstr = pca.inverse_transform(dimred).reshape((784,))
+            # calculate RMSE
+            rmse = math.sqrt( mean_squared_error(byclass[i][0], reconstr) )
+            # display
+            print("Class: ", i, "\tK = ", K, "  \t RMSE: ", rmse, "\n")
+        print()
+
+#iaml01cw2_q1_6()   # comment this out when you run the function
+print()
+print()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Q1.7
@@ -216,9 +247,54 @@ def iaml01cw2_q1_6():
 print("Q1.7")
 print("~~~~~~~~~")
 def iaml01cw2_q1_7():
-#
-# iaml01cw2_q1_7()   # comment this out when you run the function
+    Ks = [5, 20, 50, 200]
+    imgs = np.zeros((40, 784))
+    
+    # split instances by class
+    byclass = np.zeros((10, 6000, 784))
+    for i in range(10):
+        byclass[i] = Xtrn[np.where(Ytrn==i)]
 
+    # calculate means for each classs
+    classmeans = np.zeros((10, 784))
+    for i in range(10):
+        classmeans[i] = np.mean(byclass[i], axis=0)
+
+    # for each class, for each K...
+    for i in range(10):
+        for j in range(4):
+            # make PCA with K components
+            pca = PCA(n_components=Ks[j])
+            # fit the PCA to the whole class
+            Xtrn_nm_pca = pca.fit(byclass[i])
+            # dim-reduct the first sample in the class
+            dimred = pca.transform(byclass[i][0].reshape(1,-1))
+            # reconstruct (inverse-transform) this reduced sample
+            reconstr = pca.inverse_transform(dimred).reshape((784,))
+            # add to imgs to plot
+            imgs[i*4 + j] = reconstr
+            print(str(i*4 + j) + "...")
+            
+    # plot
+    f, axarr = plt.subplots(10,5, sharex=True, sharey=True)
+    for i in range(10):
+        for j in range(5):
+            if(j==0):
+                axarr[i,j].text(10,18, "Class " + str(i))
+                axarr[i,j].axis('off')
+            else:
+                img = imgs[i*4 + j-1].reshape((28,28))
+                axarr[i,j].imshow(img, cmap='gray_r')
+                axarr[i,j].axis('off')
+                if (i==0):
+                    axarr[i,j].set_title("K=" + str(Ks[j-1]))
+            print(str(i*4 + j) + "...")
+    plt.show()
+
+
+#iaml01cw2_q1_7()   # comment this out when you run the function
+print()
+print()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Q1.8
@@ -226,5 +302,8 @@ def iaml01cw2_q1_7():
 print("Q1.8")
 print("~~~~~~~~~")
 def iaml01cw2_q1_8():
+    print()
 #
 # iaml01cw2_q1_8()   # comment this out when you run the function
+print()
+print()
