@@ -16,6 +16,7 @@
 import numpy as np
 import scipy
 import math
+import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.metrics import mean_squared_error
 import matplotlib
@@ -302,8 +303,22 @@ print()
 print("Q1.8")
 print("~~~~~~~~~")
 def iaml01cw2_q1_8():
-    print()
-#
-# iaml01cw2_q1_8()   # comment this out when you run the function
+    pca = PCA(n_components=2)
+    Xtrn_nm_pca2 = pca.fit_transform(Xtrn_nm)
+    pcdf = pd.DataFrame(data = Xtrn_nm_pca2, columns = ['PC1', 'PC2'])
+    ys = pd.DataFrame(data = Ytrn, columns = ['targ'])
+    xydf = pd.concat([pcdf, ys], axis=1)
+
+    plt.title("Normalised training data after PCA reduction to 2 dimensions")
+    plt.scatter(xydf.PC1, xydf.PC2, c=xydf.targ, s=1, cmap='coolwarm')
+    plt.colorbar()
+    plt.xlabel('PC1')
+    plt.ylabel('PC2')
+    plt.show()
+
+
+
+
+iaml01cw2_q1_8()   # comment this out when you run the function
 print()
 print()

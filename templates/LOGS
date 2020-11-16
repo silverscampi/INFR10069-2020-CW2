@@ -1,0 +1,57 @@
+>>> fig = plt.figure()
+>>> ax = fig.add_axes()
+>>> 
+>>> fig.contourf(XX, YY, probas, cmap='coolwarm')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Figure' object has no attribute 'contourf'
+>>> plt.contourf(XX, YY, probas, cmap='coolwarm')
+<matplotlib.contour.QuadContourSet object at 0x7f1671a57ad0>
+>>> 
+>>> ax.contourf(XX, YY, probas, cmap='coolwarm')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'NoneType' object has no attribute 'contourf'
+>>> 
+>>> 
+>>> plt.contourf(XX, YY, probas, cmap='coolwarm')
+<matplotlib.contour.QuadContourSet object at 0x7f1671a57d50>
+>>> 
+>>> ax.set_xlabel('PC1')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'NoneType' object has no attribute 'set_xlabel'
+>>> ax = fig.add_axes([1,1,1,1])
+>>> ax.contourf(XX, YY, probas, cmap='coolwarm')
+<matplotlib.contour.QuadContourSet object at 0x7f1671a32290>
+>>> 
+>>> 
+>>> ax.set_xlabel('PC1')
+Text(0.5,0,'PC1')
+>>> ax.set_ylabel('PC2')
+Text(0,0.5,'PC2')
+>>> ax.set_xticks(['$-5\sigma_{1}$', '$-4\sigma_{1}$', '$-3\sigma_{1}$', '$-2\sigma_{1}$', '$-\sigma_{1}$', '$0$', '$\sigma_{1}$', '$2\sigma_{1}$', '$3\sigma_{1}$', '$4\sigma_{1}$', '$5\sigma_{1}$'])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/silver/miniconda3/envs/py3iaml/lib/python3.7/site-packages/matplotlib/axes/_base.py", line 3236, in set_xticks
+    ret = self.xaxis.set_ticks(ticks, minor=minor)
+  File "/home/silver/miniconda3/envs/py3iaml/lib/python3.7/site-packages/matplotlib/axis.py", line 1678, in set_ticks
+    ticks = self.convert_units(ticks)
+  File "/home/silver/miniconda3/envs/py3iaml/lib/python3.7/site-packages/matplotlib/axis.py", line 1526, in convert_units
+    ret = self.converter.convert(x, self.units, self)
+  File "/home/silver/miniconda3/envs/py3iaml/lib/python3.7/site-packages/matplotlib/category.py", line 65, in convert
+    unit.update(values)
+AttributeError: 'NoneType' object has no attribute 'update'
+>>> ax.set_ticks([-5*sd1, -4*sd1, -3*sd1, -2*sd1, -1*sd1, 0, sd1, 2*sd1, 3*sd1, 4*sd1, 5*sd1])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Axes' object has no attribute 'set_ticks'
+>>> ax.set_xticks([-5*sd1, -4*sd1, -3*sd1, -2*sd1, -1*sd1, 0, sd1, 2*sd1, 3*sd1, 4*sd1, 5*sd1])
+[<matplotlib.axis.XTick object at 0x7f1671a118d0>, <matplotlib.axis.XTick object at 0x7f1671a8af10>, <matplotlib.axis.XTick object at 0x7f1671a8acd0>, <matplotlib.axis.XTick object at 0x7f1671a45650>, <matplotlib.axis.XTick object at 0x7f1671a45d50>, <matplotlib.axis.XTick object at 0x7f1671a4d310>, <matplotlib.axis.XTick object at 0x7f1671a4d8d0>, <matplotlib.axis.XTick object at 0x7f1671a4de50>, <matplotlib.axis.XTick object at 0x7f1671a45990>, <matplotlib.axis.XTick object at 0x7f16719d4390>, <matplotlib.axis.XTick object at 0x7f16719d4910>]
+>>> ax.set_xticklabels(['$-5\sigma_{1}$', '$-4\sigma_{1}$', '$-3\sigma_{1}$', '$-2\sigma_{1}$', '$-\sigma_{1}$', '$0$', '$\sigma_{1}$', '$2\sigma_{1}$', '$3\sigma_{1}$', '$4\sigma_{1}$', '$5\sigma_{1}$'])
+[Text(0,0,'$-5\\sigma_{1}$'), Text(0,0,'$-4\\sigma_{1}$'), Text(0,0,'$-3\\sigma_{1}$'), Text(0,0,'$-2\\sigma_{1}$'), Text(0,0,'$-\\sigma_{1}$'), Text(0,0,'$0$'), Text(0,0,'$\\sigma_{1}$'), Text(0,0,'$2\\sigma_{1}$'), Text(0,0,'$3\\sigma_{1}$'), Text(0,0,'$4\\sigma_{1}$'), Text(0,0,'$5\\sigma_{1}$')]
+>>> 
+>>> ax.set_yticks([-5*sd2, -4*sd2, -3*sd2, -2*sd2, -1*sd2, 0, sd2, 2*sd2, 3*sd2, 4*sd2, 5*sd2])
+[<matplotlib.axis.YTick object at 0x7f1671a15950>, <matplotlib.axis.YTick object at 0x7f1671a15110>, <matplotlib.axis.YTick object at 0x7f1671a7ecd0>, <matplotlib.axis.YTick object at 0x7f16719dd690>, <matplotlib.axis.YTick object at 0x7f16719ddc50>, <matplotlib.axis.YTick object at 0x7f16719e7250>, <matplotlib.axis.YTick object at 0x7f16719e7850>, <matplotlib.axis.YTick object at 0x7f16719dd810>, <matplotlib.axis.YTick object at 0x7f16719d4110>, <matplotlib.axis.YTick object at 0x7f16719e7d90>, <matplotlib.axis.YTick object at 0x7f16719ed350>]
+>>> ax.set_yticklabels(['$-5\sigma_{2}$', '$-4\sigma_{2}$', '$-3\sigma_{2}$', '$-2\sigma_{2}$', '$-\sigma_{2}$', '$0$', '$\sigma_{2}$', '$2\sigma_{2}$', '$3\sigma_{2}$', '$4\sigma_{2}$', '$5\sigma_{2}$'])
+[Text(0,0,'$-5\\sigma_{2}$'), Text(0,0,'$-4\\sigma_{2}$'), Text(0,0,'$-3\\sigma_{2}$'), Text(0,0,'$-2\\sigma_{2}$'), Text(0,0,'$-\\sigma_{2}$'), Text(0,0,'$0$'), Text(0,0,'$\\sigma_{2}$'), Text(0,0,'$2\\sigma_{2}$'), Text(0,0,'$3\\sigma_{2}$'), Text(0,0,'$4\\sigma_{2}$'), Text(0,0,'$5\\sigma_{2}$')]
