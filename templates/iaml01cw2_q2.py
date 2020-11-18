@@ -21,8 +21,8 @@ from sklearn.decomposition import PCA
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import confusion_matrix
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC
-from scipy.special import softmax
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -101,17 +101,16 @@ def iaml01cw2_q2_3():
     logreg.fit(Xtrn_nm, Ytrn)
 
 
-    # get PCs
+    # get PCs and SDs
     pca = PCA(n_components=2)
     pca.fit(Xtrn_nm)
-    V = pca.components_.copy()
+    V = pca.components_
     var1 = pca.explained_variance_[0]
     var2 = pca.explained_variance_[1]
     sd1 = math.sqrt(var1)
     sd2 = math.sqrt(var2)
 
     # make 2D grid
-    #zXX, zYY = np.mgrid[-5*var1:5*var1:0.1*var1, -5*var2:5*var2:0.1*var2]
     XX, YY = np.mgrid[-5*sd1:5*sd1:0.1*sd1, -5*sd2:5*sd2:0.1*sd2]
     zgrid = np.c_[XX.ravel(), YY.ravel()]
 
@@ -119,14 +118,16 @@ def iaml01cw2_q2_3():
         # V    .shape = (    2, 784)
         # zgrid.shape = (10000,   2)
     xgrid = np.dot(zgrid, V)
-    probas = logreg.predict_proba(xgrid)[:,1].reshape(XX.shape)
+    preds = logreg.predict(xgrid).reshape(XX.shape)
 
     # plot graph
     fig = plt.figure()
-    ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    ax.contourf(XX, YY, probas, cmap='coolwarm')
+    ax = fig.add_axes([0.15, 0.11, 0.8, 0.8])
+    ax.set_title("Decision regions for logistic regression, projected on the first two PCs")
+    cont = ax.contourf(XX, YY, preds, cmap='coolwarm')
     ax.set_xlabel('PC1')
     ax.set_ylabel('PC2')
+    cbar = ax.figure.colorbar(cont, ax=ax)
 
     ax.set_xticks([-5*sd1, -4*sd1, -3*sd1, -2*sd1, -1*sd1, 0, sd1, 2*sd1, 3*sd1, 4*sd1, 5*sd1])
     ax.set_yticks([-5*sd2, -4*sd2, -3*sd2, -2*sd2, -1*sd2, 0, sd2, 2*sd2, 3*sd2, 4*sd2, 5*sd2])
@@ -134,19 +135,9 @@ def iaml01cw2_q2_3():
     ax.set_xticklabels(["$-5\sigma_{1}$", "$-4\sigma_{1}$", "$-3\sigma_{1}$", "$-2\sigma_{1}$", "$-\sigma_{1}$", "0", "$\sigma_{1}$", "$2\sigma_{1}$", "$3\sigma_{1}$", "$4\sigma_{1}$", "$5\sigma_{1}$"])
     ax.set_yticklabels(["$-5\sigma_{2}$", "$-4\sigma_{2}$", "$-3\sigma_{2}$", "$-2\sigma_{2}$", "$-\sigma_{2}$", "0", "$\sigma_{2}$", "$2\sigma_{2}$", "$3\sigma_{2}$", "$4\sigma_{2}$", "$5\sigma_{2}$"])
 
-
-
-
-    """
-    plt.contourf(XX, YY, probas, cmap='coolwarm')
-    plt.colorbar()
-    plt.title("VARIANCE!!!!! over something or other whatever look at the graph")
-    plt.xlabel("PC1")
-    plt.ylabel("PC2")
     plt.show()
-    """
-#
-iaml01cw2_q2_3()   # comment this out when you run the function
+
+#iaml01cw2_q2_3()   # comment this out when you run the function
 print()
 print()
 
@@ -157,9 +148,45 @@ print()
 print("Q2.4")
 print("~~~~~~~~~")
 def iaml01cw2_q2_4():
-    print()
-#
-# iaml01cw2_q2_4()   # comment this out when you run the function
+    # do SVM
+    svm = SVC()
+    svm.fit(Xtrn_nm, Ytrn)
+    
+    # get PCs and SDs
+    pca = PCA(n_components=2)
+    pca.fit(Xtrn_nm)
+    V = pca.components_
+    var1 = pca.explained_variance_[0]
+    var2 = pca.explained_variance_[1]
+    sd1 = math.sqrt(var1)
+    sd2 = math.sqrt(var2)
+
+    # make 2D grid
+    XX, YY = np.mgrid[-5*sd1:5*sd1:0.1*sd1, -5*sd2:5*sd2:0.1*sd2]
+    zgrid = np.c_[XX.ravel(), YY.ravel()]
+
+    # transform grid points into original space
+    xgrid = np.dot(zgrid, V)
+    preds = svm.predict(xgrid).reshape(XX.shape)
+
+    # plot graph
+    fig = plt.figure()
+    ax = fig.add_axes([0.15, 0.11, 0.8, 0.8])
+    ax.set_title("Decision regions for SVM classification, projected on the first two PCs")
+    cont = ax.contourf(XX, YY, preds, cmap='coolwarm')
+    ax.set_xlabel('PC1')
+    ax.set_ylabel('PC2')
+    cbar = ax.figure.colorbar(cont, ax=ax)
+
+    ax.set_xticks([-5*sd1, -4*sd1, -3*sd1, -2*sd1, -1*sd1, 0, sd1, 2*sd1, 3*sd1, 4*sd1, 5*sd1])
+    ax.set_yticks([-5*sd2, -4*sd2, -3*sd2, -2*sd2, -1*sd2, 0, sd2, 2*sd2, 3*sd2, 4*sd2, 5*sd2])
+
+    ax.set_xticklabels(["$-5\sigma_{1}$", "$-4\sigma_{1}$", "$-3\sigma_{1}$", "$-2\sigma_{1}$", "$-\sigma_{1}$", "0", "$\sigma_{1}$", "$2\sigma_{1}$", "$3\sigma_{1}$", "$4\sigma_{1}$", "$5\sigma_{1}$"])
+    ax.set_yticklabels(["$-5\sigma_{2}$", "$-4\sigma_{2}$", "$-3\sigma_{2}$", "$-2\sigma_{2}$", "$-\sigma_{2}$", "0", "$\sigma_{2}$", "$2\sigma_{2}$", "$3\sigma_{2}$", "$4\sigma_{2}$", "$5\sigma_{2}$"])
+
+    plt.show()
+    
+iaml01cw2_q2_4()   # comment this out when you run the function
 print()
 print()
 
@@ -170,8 +197,56 @@ print()
 print("Q2.5")
 print("~~~~~~~~~")
 def iaml01cw2_q2_5():
-    print()
-#
+    # pick the first 1000 from each class to create Xsmall
+    # remembering Ysmall too
+    bigdf = pd.DataFrame(data = Xtrn_nm)
+    bigys = pd.DataFrame(data = Ytrn, columns=['target'])
+    bigxy = pd.concat([bigdf, bigys], axis=1)
+
+    # group by class
+    grouping = bigxy.groupby(bigxy.target)
+
+    # get first 1000 of each class and combine classes again
+    tempgroup = grouping.get_group(0)
+    smallxy = tempgroup.head(1000)
+
+    for i in range(1,10):
+        tempgroup = grouping.get_group(i)
+        smallxy = pd.concat([smallxy, tempgroup.head(1000)])
+        
+    # separate Xs and Ys
+    Xsmall = smallxy.iloc[:,:-1]
+    smally = smallxy.iloc[:,-1:]
+    Ysmall = smally.values.ravel()
+    
+
+
+    # OKAY
+
+    # 3fold CV with Xsmall only
+    Cs = np.logspace(-2, 3, num=10)
+    # 3 per 10
+    scores = np.zeros((10,3))
+
+
+    for i in range(10):
+        print(i, "...")
+        svm = SVC(kernel='rbf', C=Cs[i], gamma='auto')
+        scores[i] = cross_val_score(svm, Xsmall, Ysmall, cv=3)
+        print("done")
+        
+    # get means of scores along rows
+    meanscores = np.mean(scores, axis=1)
+
+    # plot score means against Cs, remember log scale
+    plt.title("Change in SVM average classification accuracy over penalty parameter C")
+    plt.xscale('log')
+    plt.plot(Cs, meanscores, linewidth=3, color='deeppink')
+    plt.xlabel("C (penalty parameter)")
+    plt.ylabel("Average accuracy over 3-way cross-validation")
+
+
+
 # iaml01cw2_q2_5()   # comment this out when you run the function
 print()
 print()
@@ -183,8 +258,13 @@ print()
 print("Q2.6")
 print("~~~~~~~~~")
 def iaml01cw2_q2_6():
-    print()
-#
+    svm = SVC(C=21.5443469)
+    svm.fit(Xtrn_nm, Ytrn)
+    acc_train = svm.score(Xtrn_nm, Ytrn) 
+    acc_test  = svm.score(Xtst_nm, Ytst)
+    print("Training accuracy: ", acc_train)
+    print("Testing accuracy: ", acc_test)
+
 # iaml01cw2_q2_6()   # comment this out when you run the function
 print()
 print()
