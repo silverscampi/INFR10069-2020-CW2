@@ -160,10 +160,15 @@ def iaml01cw2_q3_3():
     # hierarchy with wards
     wardshc = hc.ward(langmeans)
 
-
     # show dendrogram with orientation='right'
     # labels for languages on each leaf
-    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanese", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese", ]
+    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanesze", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese"]
+    hc.dendrogram(wardshc, orientation='right', labels=labels)
+    
+    plt.title("Dendrogram using Ward linkage")
+    plt.xlabel("Distance")
+    plt.ylabel("Language")
+    plt.show()
 
 # iaml01cw2_q3_3()   # comment this out when you run the function
 print()
@@ -178,20 +183,61 @@ print("~~~~~~~~~")
 def iaml01cw2_q3_4():
     print()
     # do kmeans(n_clusters=3, random_state=1) FOR EACH LANG CLASS!
+    x_trn_df = pd.DataFrame(data=Xtrn)
+    y_trn_df = pd.DataFrame(data=Ytrn, columns=['lang'])
+    xy_trn_df = pd.concat([x_trn_df, y_trn_df], axis=1)
+    grouping = xy_trn_df.groupby(xy_trn_df.lang)
+
+    langvecs = np.zeros((22,3,26))
+    
+    for i in range(22):
+        kmeans = KMeans(n_clusters=3, random_state=1)
+        kmeans.fit(grouping.get_group(i).iloc[:,:-1])
+        langvecs[i] = kmeans.cluster_centers_
+
+
+    # should have 66 vecs in total
+    # build (22,3,26) and then reshape((66,26)) !! <3
+    langvecs = langvecs.reshape(66,26)
 
     # do hierarchy with ward
+    wardhc = hc.ward(langvecs)
 
     # do hierarchy with single
+    singlehc = hc.single(langvecs)
 
     # do hierarchy with complete
+    completehc = hc.complete(langvecs)
 
+    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanesze", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese"]
+
+    kuuskendkuus = [0] * 66
+
+    for i, label in enumerate(labels):
+        kuuskendkuus[i*3] = label
+        kuuskendkuus[i*3+1] = label
+        kuuskendkuus[i*3+2] = label
 
     # plot dendrogram for ward
+    hc.dendrogram(wardhc, orientation='right', labels=kuuskendkuus)
+    plt.title("Dendrogram using Ward linkage")
+    plt.xlabel("Distance")
+    plt.ylabel("Language")
+    plt.show()
 
     # plot dendrogram for single
+    hc.dendrogram(singlehc, orientation='right', labels=kuuskendkuus)
+    plt.title("Dendrogram using single linkage")
+    plt.xlabel("Distance")
+    plt.ylabel("Language")
+    plt.show()
 
     # plot dendrogram for complete
-
+    hc.dendrogram(completehc, orientation='right', labels=kuuskendkuus)
+    plt.title("Dendrogram using complete linkage")
+    plt.xlabel("Distance")
+    plt.ylabel("Language")
+    plt.show()
 
 # iaml01cw2_q3_4()   # comment this out when you run the function
 print()
