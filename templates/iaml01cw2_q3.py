@@ -77,30 +77,57 @@ def iaml01cw2_q3_2():
     # do pca(n_c=2) on THE MEANS
     pca = PCA(n_components=2)
     meanspca = pca.fit_transform(langmeans)
-    
+
 # on the two PCs, plot the MEAN VECTORS
 fig = plt.figure()
 ax = fig.add_axes([0.15, 0.11, 0.8, 0.8])
 ax.set_title("Comparison of 2D PCA mean vectors and 22-means cluster centres")
 
-meanscatter = ax.scatter(meanspca[:,0], meanspca[:,1], c=range(22), cmap=plt.get_cmap('inferno', 22))
+meanscatter = ax.scatter(meanspca[:,0], meanspca[:,1], c='orange', s=100, label='Mean vectors')
 ax.set_xlabel('PC1')
 ax.set_ylabel('PC2')
 
 # on -this same figure-, also plot the cluster centres (transformed into this PC space....)
 centrespca = pca.transform(centres)
-centrescatter = ax.scatter(centrespca[:,0], meanspca[:,1], c=range(22), cmap=plt.get_cmap('viridis', 22))
+centrescatter = ax.scatter(centrespca[:,0], centrespca[:,1], c='skyblue', s=100, label='Cluster centres')
 
 # """format it nicely"""
 # show lang info with name or abbrev or number
+labels=['Ar', 'Ca', 'Cy', 'De', 'En', 'Es', 'Et', 'Fa', 'Fr', 'Id', 'It', 'Ja', 'Lv', 'Mn', 'Nl', 'Ru', 'Sl', 'Sv', 'Pt', 'Ta', 'Tr', 'Zh']
 
-meanscbar = fig.colorbar(meanscatter, ax=ax, ticks=np.linspace(-0.5,22.5,24), format='%1i', shrink=0.8)
-centrescbar = fig.colorbar(centrescatter, ax=ax, ticks=np.linspace(-0.5,22.5,24), format='%1i', shrink=0.8)
+# centres french and means english are overlapping
 
-meanscbar.ax.set_title("Mean\nvectors")
-centrescbar.ax.set_title("Cluster\ncentres")
+# annotate every mean except for english, catalan, italian, turkish
+for i, label in enumerate(labels):
+    if (i!=4 and i!=1 and i!=10 and i!=20):
+        plt.annotate(label, (meanspca[:,0][i], meanspca[:,1][i]), color='maroon', xytext=(-5, -5), textcoords='offset points')
+    
 
-meanscbar.ax.yaxis.set_ticks_position('left')
+
+# annotate english mean
+plt.annotate('En', (meanspca[:,0][4], meanspca[:,1][4]), color='maroon', xytext=(2, -4), textcoords='offset points')
+# annotate catalan mean
+plt.annotate('Ca', (meanspca[:,0][1], meanspca[:,1][1]), color='maroon', xytext=(-8, 0), textcoords='offset points')
+# annotate italian mean
+plt.annotate('It', (meanspca[:,0][10], meanspca[:,1][10]), color='maroon', xytext=(0, -6), textcoords='offset points')
+# annotate turkish mean
+plt.annotate('Tr', (meanspca[:,0][20], meanspca[:,1][20]), color='maroon', xytext=(0, -4), textcoords='offset points')
+
+
+# annotate every centre except for farsi, japanese
+for i, label in enumerate(labels):
+    if (i!=7):
+        plt.annotate(label, (centrespca[:,0][i], centrespca[:,1][i]), color='navy', xytext=(-5, -5), textcoords='offset points')
+
+
+
+# annotate farsi centre
+plt.annotate('Fa', (centrespca[:,0][7], centrespca[:,1][7]), color='navy', xytext=(-10, -6), textcoords='offset points')
+
+
+
+
+plt.legend()
 
 plt.show()
 
