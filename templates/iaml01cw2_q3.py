@@ -20,6 +20,7 @@ import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.svm import SVC
+from sklearn.mixture import GaussianMixture
 from scipy.cluster import hierarchy as hc
 import matplotlib
 import matplotlib.pyplot as plt
@@ -250,7 +251,39 @@ print()
 print("Q3.5")
 print("~~~~~~~~~")
 def iaml01cw2_q3_5():
-    print()
+    # use lang 0 only
+
+    # make zeros array for results
+
+    # loop over Ks
+    Ks = [1, 3, 5, 10, 15]
+    
+    gmm_diag = GaussianMixture()
+    gmm_full = GaussianMixture()
+
+
+
+    # get scores
+    gmm_diag.score(Xtrn, Ytrn)
+    gmm_diag.score(Xtst, Ytst)
+
+    gmm_full.score(Xtrn, Ytrn)
+    gmm_full.score(Xtst, Ytst)
+
+
+
+    # plot graph...
+    # K along xaxis
+    # score along yaxis
+    # plot K=1
+    # plot K=3
+    # plot K=5
+    # plot K=10
+    # plot K=15
+
+
+
+
 # iaml01cw2_q3_5()   # comment this out when you run the function
 print()
 print()
