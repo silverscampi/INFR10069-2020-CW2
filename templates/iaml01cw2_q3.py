@@ -17,6 +17,7 @@ import numpy as np
 import scipy
 import math
 import pandas as pd
+from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.svm import SVC
 import matplotlib
@@ -56,20 +57,53 @@ print()
 print("Q3.2")
 print("~~~~~~~~~")
 def iaml01cw2_q3_2():
+    # DO KMEANS LIKE ABOVE TO GET CENTRES
+    kmeans = KMeans(n_clusters=22, random_state=1)
+    kmeans.fit(Xtrn)
+    centres = kmeans.cluster_centers_
+
     # make dataframe combining Xtrn and Ytrn
+    x_trn_df = pd.DataFrame(data=Xtrn)
+    y_trn_df = pd.DataFrame(data=Ytrn, columns=['lang'])
+    xy_trn_df = pd.concat([x_trn_df, y_trn_df], axis=1)
 
-    # np.mean(xy_trn_df, axis=0).shape = (26,)
-
+    # group by class
+    grouping = xy_trn_df.groupby(xy_trn_df.lang)
+    # get means of each class
+    langmeans = np.zeros((22,26))
+    for i in range(22):
+            langmeans[i] = np.mean(grouping.get_group(0).iloc[:,:-1])
 
     # do pca(n_c=2) on THE MEANS
+    pca = PCA(n_components=2)
+    meanspca = pca.fit_transform(langmeans)
+    
+# on the two PCs, plot the MEAN VECTORS
+fig = plt.figure()
+ax = fig.add_axes([0.15, 0.11, 0.8, 0.8])
+ax.set_title("Comparison of 2D PCA mean vectors and 22-means cluster centres")
 
-    # on the two PCs, plot the MEAN VECTORS
+meanscatter = ax.scatter(meanspca[:,0], meanspca[:,1], c=range(22), cmap=plt.get_cmap('inferno', 22))
+ax.set_xlabel('PC1')
+ax.set_ylabel('PC2')
 
+# on -this same figure-, also plot the cluster centres (transformed into this PC space....)
+centrespca = pca.transform(centres)
+centrescatter = ax.scatter(centrespca[:,0], meanspca[:,1], c=range(22), cmap=plt.get_cmap('viridis', 22))
 
-    # on -this same figure-, also plot the cluster centres (transformed into this PC space....)
+# """format it nicely"""
+# show lang info with name or abbrev or number
 
-    # """format it nicely"""
-    # show lang info with name or abbrev or number
+meanscbar = fig.colorbar(meanscatter, ax=ax, ticks=np.linspace(-0.5,22.5,24), format='%1i', shrink=0.8)
+centrescbar = fig.colorbar(centrescatter, ax=ax, ticks=np.linspace(-0.5,22.5,24), format='%1i', shrink=0.8)
+
+meanscbar.ax.set_title("Mean\nvectors")
+centrescbar.ax.set_title("Cluster\ncentres")
+
+meanscbar.ax.yaxis.set_ticks_position('left')
+
+plt.show()
+
 
 # iaml01cw2_q3_2()   # comment this out when you run the function
 print()
