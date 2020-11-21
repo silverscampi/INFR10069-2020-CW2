@@ -163,7 +163,7 @@ def iaml01cw2_q3_3():
 
     # show dendrogram with orientation='right'
     # labels for languages on each leaf
-    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanesze", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese"]
+    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanese", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese"]
     hc.dendrogram(wardshc, orientation='right', labels=labels)
     
     plt.title("Dendrogram using Ward linkage")
@@ -199,7 +199,7 @@ def iaml01cw2_q3_4():
 
 
     # should have 66 vecs in total
-    # build (22,3,26) and then reshape((66,26)) !! <3
+    # build (22,3,26) and then reshape((66,26))
     langvecs = langvecs.reshape(66,26)
 
     # do hierarchy with ward
