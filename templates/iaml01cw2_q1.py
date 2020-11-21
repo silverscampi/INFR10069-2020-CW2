@@ -48,7 +48,7 @@ print("~~~~~~~~~")
 def iaml01cw2_q1_1():
     print(Xtrn_nm[0,:][0:4])
     print()
-    print(Xtrn_nm[0,:][0:4])
+    print(Xtrn_nm[-1,:][0:4])
 #iaml01cw2_q1_1()   # comment this out when you run the function
 print()
 print()
@@ -127,7 +127,7 @@ def iaml01cw2_q1_2():
             axarr[i,j].axis('off')
 
 
-    matplotlib.rcParams.update({'font.size': 22})
+    #matplotlib.rcParams.update({'font.size': 22})
 
     plt.show()
 
