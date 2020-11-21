@@ -197,6 +197,7 @@ def iaml01cw2_q3_4():
         langvecs[i] = kmeans.cluster_centers_
 
 
+
     # should have 66 vecs in total
     # build (22,3,26) and then reshape((66,26)) !! <3
     langvecs = langvecs.reshape(66,26)
@@ -210,7 +211,7 @@ def iaml01cw2_q3_4():
     # do hierarchy with complete
     completehc = hc.complete(langvecs)
 
-    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanesze", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese"]
+    labels = ["Arabic", "Catalan", "Welsh", "German", "English", "Spanish", "Estonian", "Persian", "French", "Indonesian", "Italian", "Japanese", "Latvian", "Mongolian", "Dutch", "Russian", "Slovenian", "Swedish", "Portuguese", "Tamil", "Turkish", "Chinese"]
 
     kuuskendkuus = [0] * 66
 
@@ -252,38 +253,69 @@ print("Q3.5")
 print("~~~~~~~~~")
 def iaml01cw2_q3_5():
     # use lang 0 only
+    x_trn_df = pd.DataFrame(data=Xtrn)
+    y_trn_df = pd.DataFrame(data=Ytrn, columns=['lang'])
+    xy_trn_df = pd.concat([x_trn_df, y_trn_df], axis=1)
+    group_trn = xy_trn_df.groupby(xy_trn_df.lang)
+    lang0_x_trn = group_trn.get_group(0).iloc[:,:-1]
+
+    x_tst_df = pd.DataFrame(data=Xtst)
+    y_tst_df = pd.DataFrame(data=Ytst, columns=['lang'])
+    xy_tst_df = pd.concat([x_tst_df, y_tst_df], axis=1)
+    group_tst = xy_tst_df.groupby(xy_tst_df.lang)
+    lang0_x_tst = group_tst.get_group(0).iloc[:,:-1]
 
     # make zeros array for results
+    results = np.zeros((5,2,2))
+    # Ks by models by train/test
+    # (5,2,2)
+    # diag=0, full=1
+    # train=0, test=1
 
     # loop over Ks
     Ks = [1, 3, 5, 10, 15]
     
-    gmm_diag = GaussianMixture()
-    gmm_full = GaussianMixture()
+    for i in range(5):
+        print("iteration ", i)
+        K = Ks[i]
+        gmm_diag = GaussianMixture(n_components=K, covariance_type='diag')
+        gmm_full = GaussianMixture(n_components=K, covariance_type='full')
+        gmm_diag.fit(lang0_x_trn)
+        print("\tdiag model fit")
+        gmm_full.fit(lang0_x_trn)
+        print("\tfull model fit")
+        # full train
+        results[i][1][0] = gmm_full.score(lang0_x_trn)
+        # full test
+        results[i][1][1] = gmm_full.score(lang0_x_tst)
+        # diag train
+        results[i][0][0] = gmm_diag.score(lang0_x_trn)
+        # diag test
+        results[i][0][1] = gmm_diag.score(lang0_x_tst)
 
-
-
-    # get scores
-    gmm_diag.score(Xtrn, Ytrn)
-    gmm_diag.score(Xtst, Ytst)
-
-    gmm_full.score(Xtrn, Ytrn)
-    gmm_full.score(Xtst, Ytst)
-
+        print("\tscores calculated!")
 
 
     # plot graph...
+    plt.title("GMM scores for varying K values, covariance type and scored data")
     # K along xaxis
     # score along yaxis
-    # plot K=1
-    # plot K=3
-    # plot K=5
-    # plot K=10
-    # plot K=15
+    # plot full train
+    plt.plot(Ks, results[:,1,0], color='lime', marker='o',  label='full-covariance matrix, training data score')
+    # plot full test
+    plt.plot(Ks, results[:,1,1], color='cyan', marker='o', label='full-covariance matrix, testing data score')
+    # plot diag train
+    plt.plot(Ks, results[:,0,0], color='deeppink', marker='^', label='diagonal-covariance matrix, training data score')
+    # plot diag test
+    plt.plot(Ks, results[:,0,1], color='orange', marker='^', label='diagonal-covariance matrix, testing data score')
+    plt.xticks(Ks)
+
+    plt.legend()
+    plt.show()
 
 
 
 
-# iaml01cw2_q3_5()   # comment this out when you run the function
+iaml01cw2_q3_5()   # comment this out when you run the function
 print()
 print()
