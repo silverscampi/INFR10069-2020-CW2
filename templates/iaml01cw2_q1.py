@@ -23,7 +23,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from iaml01cw2_helpers import *
-# from iaml01cw2_my_helpers import *
 
 datapath = "../data/"
 Xtrn, Ytrn, Xtst, Ytst = load_FashionMNIST(datapath)
@@ -238,7 +237,7 @@ def iaml01cw2_q1_6():
             print("Class: ", i, "\tK = ", K, "  \t RMSE: ", rmse, "\n")
         print()
 
-#iaml01cw2_q1_6()   # comment this out when you run the function
+# iaml01cw2_q1_6()   # comment this out when you run the function
 print()
 print()
 

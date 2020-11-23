@@ -26,13 +26,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from iaml01cw2_helpers import *
-from iaml01cw2_my_helpers import *
 
 #<----
 
 Xtrn, Ytrn, Xtst, Ytst = load_CoVoST2("../data/")
-
-# random_state=1
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Q3.1
@@ -106,8 +103,6 @@ def iaml01cw2_q3_2():
         if (i!=4 and i!=1 and i!=10 and i!=17 and i!=20):
             plt.annotate(label, (meanspca[:,0][i], meanspca[:,1][i]), color='maroon', xytext=(-5, -5), textcoords='offset points')
         
-
-    # HORRIBLE
     # annotate english mean
     plt.annotate('En', (meanspca[:,0][4], meanspca[:,1][4]), color='maroon', xytext=(2, -4), textcoords='offset points')
     # annotate catalan mean

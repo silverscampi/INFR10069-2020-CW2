@@ -27,7 +27,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from iaml01cw2_helpers import *
-from iaml01cw2_my_helpers import *
 
 datapath = "../data/"
 Xtrn, Ytrn, Xtst, Ytst = load_FashionMNIST(datapath)
@@ -51,20 +50,13 @@ Xtst_nm = Xtst - Xmean
 print("Q2.1")
 print("~~~~~~~~~")
 def iaml01cw2_q2_1():
-    logreg = LogisticRegression() #verbose=1
+    logreg = LogisticRegression()
     logreg.fit(Xtrn_nm, Ytrn)
     preds = logreg.predict(Xtst_nm)
     acc = logreg.score(Xtst_nm, Ytst)
     print("Accuracy: ", acc)
     confusion = confusion_matrix(Ytst, preds)
     print(confusion)
-    """
-    # plot confusion matrix
-    classes = ['Class 0', 'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', ]
-    plt.figure()
-    plot_confusion_matrix(confusion, classes=classes, title="Confusion matrix for multinomial logistic regression")
-    plt.show()
-    """
 #iaml01cw2_q2_1()   # comment this out when you run the function
 print()
 print()
@@ -77,7 +69,7 @@ print()
 print("Q2.2")
 print("~~~~~~~~~")
 def iaml01cw2_q2_2():
-    svm = SVC() #verbose=1
+    svm = SVC()
     svm.fit(Xtrn_nm, Ytrn)
     preds = svm.predict(Xtst_nm)
     acc = svm.score(Xtst_nm, Ytst)
@@ -97,7 +89,7 @@ print("Q2.3")
 print("~~~~~~~~~")
 def iaml01cw2_q2_3():
     # do logistic regression
-    logreg = LogisticRegression(verbose=1) #
+    logreg = LogisticRegression() #
     logreg.fit(Xtrn_nm, Ytrn)
 
 
@@ -111,7 +103,7 @@ def iaml01cw2_q2_3():
     sd2 = math.sqrt(var2)
 
     # make 2D grid
-    XX, YY = np.mgrid[-5*sd1:5*sd1:0.1*sd1, -5*sd2:5*sd2:0.1*sd2]
+    XX, YY = np.mgrid[-5*sd1:5.01*sd1:0.1*sd1, -5*sd2:5.01*sd2:0.1*sd2]
     zgrid = np.c_[XX.ravel(), YY.ravel()]
 
     # transform grid points into original space
@@ -162,7 +154,7 @@ def iaml01cw2_q2_4():
     sd2 = math.sqrt(var2)
 
     # make 2D grid
-    XX, YY = np.mgrid[-5*sd1:5*sd1:0.1*sd1, -5*sd2:5*sd2:0.1*sd2]
+    XX, YY = np.mgrid[-5*sd1:5.01*sd1:0.1*sd1, -5*sd2:5.01*sd2:0.1*sd2]
     zgrid = np.c_[XX.ravel(), YY.ravel()]
 
     # transform grid points into original space
@@ -171,7 +163,7 @@ def iaml01cw2_q2_4():
 
     # plot graph
     fig = plt.figure()
-    ax = fig.add_axes([0.15, 0.11, 0.8, 0.8])
+    ax = fig.add_axes([0.15, 0.1, 0.8, 0.8])
     ax.set_title("Decision regions for SVM classification, projected on the first two PCs")
     cont = ax.contourf(XX, YY, preds, cmap='coolwarm')
     ax.set_xlabel('PC1')
@@ -186,7 +178,7 @@ def iaml01cw2_q2_4():
 
     plt.show()
     
-iaml01cw2_q2_4()   # comment this out when you run the function
+#iaml01cw2_q2_4()   # comment this out when you run the function
 print()
 print()
 
@@ -219,10 +211,6 @@ def iaml01cw2_q2_5():
     smally = smallxy.iloc[:,-1:]
     Ysmall = smally.values.ravel()
     
-
-
-    # OKAY
-
     # 3fold CV with Xsmall only
     Cs = np.logspace(-2, 3, num=10)
     # 3 per 10
